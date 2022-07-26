@@ -1,6 +1,6 @@
 // const asyncLocalStorage = require('./als.service')
 const logger = require('./logger.service')
-const toyService = require('../api/toy/stay.service')
+const stayService = require('../api/stay/stay.service')
 var gIo = null
 
 function connectSockets(http, session) {
@@ -36,7 +36,7 @@ function connectSockets(http, session) {
       // emits only to sockets in the same room
       gIo.to(socket.myTopic).emit('chat addMsg', msg)
 
-      toyService.addMsg(socket.myTopic, msg)//save history bonus
+      stayService.addMsg(socket.myTopic, msg)//save history bonus
     })
 
     socket.on('user-typing', (user) => {
@@ -56,10 +56,10 @@ function connectSockets(http, session) {
       socket.userId = userId
     })
 
-    //for fun delete toy in other browsers
-    socket.on('deleteToy', (toyId) => {
+    //for fun delete stay in other browsers
+    socket.on('deleteStay', (stayId) => {
       //   gIo.to(socket.myTopic).emit('user-typing', user)
-      broadcast({ type: 'delete-toy', data: toyId, userId: socket.userId })
+      broadcast({ type: 'delete-stay', data: stayId, userId: socket.userId })
     })
     socket.on('unset-user-socket', () => {
       delete socket.userId

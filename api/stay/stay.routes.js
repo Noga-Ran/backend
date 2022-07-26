@@ -12,7 +12,7 @@ router.post('/', addStay)
 router.put('/:id', updateStay)
 router.delete('/:id', removeStay)
 // router.post('/', requireAuth, requireAdmin, addStay)//,
-// router.put('/:id', requireAuth, requireAdmin, updateToy)
+// router.put('/:id', requireAuth, requireAdmin, updateStay)
 // router.put('/:id', requireAuth, updateStay)
 // router.delete('/:id', removeStay)//requireAuth, requireAdmin,
 // router.post('/:id/review', addReview)

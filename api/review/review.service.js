@@ -11,7 +11,7 @@ async function query(filterBy = {}) {
       {
         $addFields: {
           userObjId: { $toObjectId: '$userId' },
-          toyObjId: { $toObjectId: '$toyId' },
+          stayObjId: { $toObjectId: '$stayId' },
         },
       },
       {
@@ -25,20 +25,20 @@ async function query(filterBy = {}) {
       { $unwind: '$user' },
       {
         $lookup: {
-          from: 'toy',
+          from: 'stay',
           foreignField: '_id',
-          localField: 'toyObjId',
-          as: 'toy',
+          localField: 'stayObjId',
+          as: 'stay',
         },
       },
       {
-        $unwind: '$toy',
+        $unwind: '$stay',
       },
       {
         $project: {
           content: 1,
           user: { _id: 1, username: 1 },
-          toy: { _id: 1, name: 1, price: 1 },
+          stay: { _id: 1, name: 1, price: 1 },
         },
       },
     ])

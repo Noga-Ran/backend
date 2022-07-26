@@ -1,3 +1,3 @@
 module.exports = {
-  'dbURL': 'mongodb://localhost:27017',
+  'dbURL': 'mongodb+srv://skybnb:1234@skybnb.nz1rp.mongodb.net/?retryWrites=true&w=majority',
 }

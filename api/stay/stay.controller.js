@@ -15,7 +15,9 @@ async function getStays(req, res) {
 async function getStayById(req, res) {
   try {
     const stayId = req.params.id
+    logger.info('id',stayId)
     const stay = await stayService.getById(stayId)
+    // logger.info('stay',stay)
     res.json(stay)
   } catch (err) {
     res.status(404).send(err)
@@ -24,7 +26,7 @@ async function getStayById(req, res) {
 
 async function addStay(req, res) {
   const stay = req.body
-  console.log(stay);
+  console.log('stay',stay);
   try {
     const addedStay = await stayService.add(stay)
     broadcast({ type: 'something-changed', userId: req.session?.user._id })
@@ -48,6 +50,7 @@ async function removeStay(req, res) {
   try {
     const stayId = req.params.id
     const removedId = await stayService.remove(stayId)
+    logger.info('deleted',stayId)
     res.send(removedId)
   } catch (err) {
     res.status(500).send(err)

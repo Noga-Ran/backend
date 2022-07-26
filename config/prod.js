@@ -1,4 +1,4 @@
 module.exports = {
   dbURL:
-    'mongodb+srv://test:1234@cluster0.lpeu3.mongodb.net/skybnb_db?retryWrites=true&w=majority',
+    'mongodb+srv://skybnb:1234@skybnb.nz1rp.mongodb.net/?retryWrites=true&w=majority',
 };
