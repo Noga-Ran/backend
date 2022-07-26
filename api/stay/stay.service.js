@@ -1,12 +1,16 @@
 const dbService = require('../../services/db.service')
 const utilService = require('../../services/utilService.js')
 const ObjectId = require('mongodb').ObjectId
+const logger = require('../../services/logger.service')
+
 
 async function query(filterBy) {
   const criteria = _buildCriteria(filterBy)
+  // logger.info(criteria)
   const collection = await dbService.getCollection('stay')
   var stays = await collection.find(criteria).toArray()
-  return stays
+  logger.info(stays.length);
+  return stays.slice(0,50)
 }
 
 async function getById(stayId) {
@@ -55,13 +59,19 @@ async function addMsg(stayId, msg) {
   update(stay)
 }
 
-function _buildCriteria(filterBy) {
+function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0}) {
+  const { where, label, adults,children } = filterBy
   const criteria = {}
-  console.log('filterBy', filterBy)
-  if (filterBy.name) {
-    const txtCriteria = { $regex: filterBy.name, $options: 'i' }
-    criteria.name = txtCriteria
-  }
+  // var criteria = {
+  //   adress:{street:''},}
+  criteria.capacity = { $gte: (+adults + +children) }
+  if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
+  // if (status) {
+  //   var inStock = status === 'In stock' ? true : false
+  //   criteria.inStock = { $eq: inStock }
+  // }
+  // if (byLabel) criteria.capacity = { $lte: +adults + +children }
+  // return criteria
   return criteria
 }
 
