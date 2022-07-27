@@ -38,6 +38,7 @@ async function deleteUser(req, res) {
 async function updateUser(req, res) {
   try {
     const user = req.body
+    logger.info(user)
     const savedUser = await userService.update(user)
     res.send(savedUser)
   } catch (err) {

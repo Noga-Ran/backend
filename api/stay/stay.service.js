@@ -6,7 +6,7 @@ const logger = require('../../services/logger.service')
 
 async function query(filterBy) {
   const criteria = _buildCriteria(filterBy)
-  // logger.info(criteria)
+  logger.info(criteria)
   const collection = await dbService.getCollection('stay')
   var stays = await collection.find(criteria).toArray()
   logger.info(stays.length);
@@ -61,13 +61,13 @@ async function addMsg(stayId, msg) {
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0}) {
   const criteria = {}
-  if(filterBy.where){
-    logger.info('filter',filterBy)
+  if(filterBy.where || filterBy.label){
     const { where, label, adults,children } = filterBy
     // var criteria = {
     //   adress:{street:''},}
     criteria.capacity = { $gte: (+adults + +children) }
     if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
+    if(label) criteria.label = { $regex: label, $options: 'i' }
     // if (status) {
   }
   //   var inStock = status === 'In stock' ? true : false
