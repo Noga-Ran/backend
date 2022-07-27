@@ -60,13 +60,16 @@ async function addMsg(stayId, msg) {
 }
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0}) {
-  const { where, label, adults,children } = filterBy
   const criteria = {}
-  // var criteria = {
-  //   adress:{street:''},}
-  criteria.capacity = { $gte: (+adults + +children) }
-  if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
-  // if (status) {
+  if(filterBy.where){
+    logger.info('filter',filterBy)
+    const { where, label, adults,children } = filterBy
+    // var criteria = {
+    //   adress:{street:''},}
+    criteria.capacity = { $gte: (+adults + +children) }
+    if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
+    // if (status) {
+  }
   //   var inStock = status === 'In stock' ? true : false
   //   criteria.inStock = { $eq: inStock }
   // }
