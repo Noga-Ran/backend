@@ -1,6 +1,7 @@
 // const asyncLocalStorage = require('./als.service')
 const logger = require('./logger.service')
-const stayService = require('../api/stay/stay.service')
+// const stayService = require('../api/stay/stay.service')
+const userService = require('../api/user/user.service')
 var gIo = null
 
 function connectSockets(http, session) {
@@ -36,7 +37,7 @@ function connectSockets(http, session) {
       // emits only to sockets in the same room
       gIo.to(socket.myTopic).emit('chat addMsg', msg)
 
-      // stayService.addMsg(socket.myTopic, msg)//save history bonus
+      // userService.addMsg(socket.myTopic, msg)//save history bonus
     })
 
     socket.on('user-typing', (user) => {

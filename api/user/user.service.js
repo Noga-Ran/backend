@@ -1,5 +1,5 @@
 const dbService = require('../../services/db.service')
-// const logger = require('../../services/logger.service')
+const logger = require('../../services/logger.service')
 // const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
 
@@ -9,6 +9,7 @@ module.exports = {
   getByUsername,
   remove,
   update,
+  addMsg,
   add,
 }
 
@@ -124,4 +125,11 @@ function _buildCriteria(filterBy) {
     criteria.balance = { $gte: filterBy.minBalance }
   }
   return criteria
+}
+
+async function addMsg(userId, msg) {
+  const user = await getById(userId)
+  user.msgs = user.msgs || []
+  user.msgs.user(msg)
+  update(user)
 }
