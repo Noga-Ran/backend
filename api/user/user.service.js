@@ -1,4 +1,5 @@
 const dbService = require('../../services/db.service')
+const { info } = require('../../services/logger.service')
 const logger = require('../../services/logger.service')
 // const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
@@ -80,7 +81,8 @@ async function update(user) {
       username: user.username,
       fullname: user.fullname,
       isAdmin: user.isAdmin || false,
-      wishlist: user.wishlist || []
+      wishlist: user.wishlist || [],
+      msgs: user.msgs || []
     }
     const collection = await dbService.getCollection('user')
     await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
@@ -128,8 +130,10 @@ function _buildCriteria(filterBy) {
 }
 
 async function addMsg(userId, msg) {
+  logger.info('user',userId,msg)
+  if(!userId) return
   const user = await getById(userId)
   user.msgs = user.msgs || []
-  user.msgs.user(msg)
+  user.msgs.push(msg)
   update(user)
 }

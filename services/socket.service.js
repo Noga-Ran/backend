@@ -30,14 +30,13 @@ function connectSockets(http, session) {
     })
 
     socket.on('chat newMsg', async (msg) => {
-      console.log('Emitting Chat msg', msg, socket.myTopic)
+      console.log('Emitting Chat msg', msg)
       // emits to all sockets:
       // gIo.emit('chat addMsg', msg)
 
       // emits only to sockets in the same room
+      userService.addMsg(socket.myTopic, msg)//save history bonus
       gIo.to(socket.myTopic).emit('chat addMsg', msg)
-
-      // userService.addMsg(socket.myTopic, msg)//save history bonus
     })
 
     socket.on('user-typing', (user) => {
