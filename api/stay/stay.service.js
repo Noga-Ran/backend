@@ -10,7 +10,7 @@ async function query(filterBy) {
   const collection = await dbService.getCollection('stay')
   var stays = await collection.find(criteria).toArray()
   logger.info(stays.length);
-  return stays.slice(0,50)
+  return stays
 }
 
 async function getById(stayId) {
