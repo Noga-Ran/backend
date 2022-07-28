@@ -36,7 +36,7 @@ function connectSockets(http, session) {
       // emits only to sockets in the same room
       gIo.to(socket.myTopic).emit('chat addMsg', msg)
 
-      stayService.addMsg(socket.myTopic, msg)//save history bonus
+      // stayService.addMsg(socket.myTopic, msg)//save history bonus
     })
 
     socket.on('user-typing', (user) => {
@@ -44,8 +44,6 @@ function connectSockets(http, session) {
       //   gIo.to(socket.myTopic).emit('user-typing', user)
       broadcast({ type: 'user-typing', data: user, room: socket.myTopic, userId: socket.userId })
     })
-
-
 
     socket.on('user-watch', (userId) => {
       socket.join('watching:' + userId)
