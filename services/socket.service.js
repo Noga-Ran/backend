@@ -30,7 +30,7 @@ function connectSockets(http, session) {
     })
 
     socket.on('chat newMsg', async (msg) => {
-      console.log('Emitting Chat msg', msg)
+      console.log('Emitting Chat msg', msg, socket.myTopic)
       // emits to all sockets:
       // gIo.emit('chat addMsg', msg)
 
@@ -43,7 +43,12 @@ function connectSockets(http, session) {
     socket.on('user-typing', (user) => {
       console.log(`${user} is typing...`)
       //   gIo.to(socket.myTopic).emit('user-typing', user)
-      broadcast({ type: 'user-typing', data: user, room: socket.myTopic, userId: socket.userId })
+      broadcast({
+        type: 'user-typing',
+        data: user,
+        room: socket.myTopic,
+        userId: socket.userId,
+      })
     })
 
     socket.on('user-watch', (userId) => {
