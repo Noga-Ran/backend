@@ -15,7 +15,6 @@ async function getUsers(req, res) {
   try {
     const filterBy = {
       txt: req.query?.txt || '',
-      minBalance: +req.query?.minBalance || 0,
     }
     const users = await userService.query(filterBy)
     res.send(users)
@@ -38,7 +37,6 @@ async function deleteUser(req, res) {
 async function updateUser(req, res) {
   try {
     const user = req.body
-    logger.info(user)
     const savedUser = await userService.update(user)
     res.send(savedUser)
   } catch (err) {

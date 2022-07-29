@@ -4,12 +4,15 @@ const ObjectId = require('mongodb').ObjectId
 const logger = require('../../services/logger.service')
 
 
-async function query(filterBy) {
-  const criteria = _buildCriteria(filterBy)
-  logger.info(criteria)
+async function query(filterBy={}) {
   const collection = await dbService.getCollection('stay')
-  var stays = await collection.find(criteria).toArray()
-  logger.info(stays.length);
+  if(filterBy) {
+    const criteria = _buildCriteria(filterBy)
+    var stays = await collection.find(criteria).limit(30).toArray()
+
+  }else{
+    var stays = await collection.find().limit(30).toArray()
+  }
   return stays
 }
 

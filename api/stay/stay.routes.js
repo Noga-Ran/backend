@@ -1,5 +1,5 @@
 const express = require('express')
-const { requireAuth, requireAdmin } = require('../../middlewares/requireAuth.middleware')
+// const { requireAuth, requireAdmin } = require('../../middlewares/requireAuth.middleware')
 const { getStays, getStayById, addStay, updateStay, removeStay, addReview } = require('./stay.controller')
 const router = express.Router()
 
