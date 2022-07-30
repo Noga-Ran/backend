@@ -29,7 +29,7 @@ function connectSockets(http, session) {
       socket.myTopic = topic
     })
 
-    socket.on('chat newMsg', async (msg) => {
+    socket.on('chat newMsg', (msg) => {
       console.log('Emitting Chat msg', msg,'to',socket.myTopic)
       // emits to all sockets:
       // gIo.emit('chat addMsg', msg)

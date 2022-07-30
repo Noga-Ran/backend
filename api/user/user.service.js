@@ -130,10 +130,12 @@ function _buildCriteria(filterBy) {
 }
 
 async function addMsg(userId, msg) {
-  logger.info('user',userId,msg)
   if(!userId) return
   const user = await getById(userId)
-  user.msgs = user.msgs || []
-  user.msgs.push(msg)
+  if(user?.msgs){
+    logger.info('before changes', user.msgs.length,user.fullname)
+    user.msgs.push(msg)
+    logger.info('after changes', user.msgs.length)
+  }else user.msgs = user.msgs = [msg]
   update(user)
 }

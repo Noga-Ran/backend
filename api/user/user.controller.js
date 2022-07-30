@@ -3,6 +3,7 @@ const logger = require('../../services/logger.service')
 
 async function getUser(req, res) {
   try {
+    logger.info(req.params)
     const user = await userService.getById(req.params.id)
     res.send(user)
   } catch (err) {
