@@ -80,9 +80,11 @@ async function update(user) {
       _id: ObjectId(user._id),
       username: user.username,
       fullname: user.fullname,
+      imgUrl: user.imgUrl || '',
       isAdmin: user.isAdmin || false,
       wishlist: user.wishlist || [],
-      msgs: user.msgs || []
+      msgs: user.msgs || [],
+      stays: user.stays || []
     }
     const collection = await dbService.getCollection('user')
     await collection.updateOne({ _id: userToSave._id }, { $set: userToSave })
