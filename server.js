@@ -43,7 +43,7 @@ app.use('/api/user', userRoutes)
 app.use('/api/review', reviewRoutes)
 app.use('/api/order', orderRoutes)
 
-connectSockets(http, session)
+// connectSockets(http, session)
 
 app.get('/**', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'))
