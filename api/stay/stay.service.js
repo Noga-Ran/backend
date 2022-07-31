@@ -79,7 +79,7 @@ function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0}) {
     let maxPrice = (+filterBy.maxPrice + 0)
     criteria.price = {$gt:minPrice,$lt:maxPrice}
 
-    // criteria.roomType = { $regex: label, $options: 'i' }
+    if(filterBy.beds!=='any') criteria.beds = {$eq:+filterBy.beds}
     // criteria.amenities = { $all: filterBy }
   }
   
