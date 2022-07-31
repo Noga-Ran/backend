@@ -8,6 +8,7 @@ async function query(filterBy={}) {
   const collection = await dbService.getCollection('stay')
   if(filterBy) {
     const criteria = _buildCriteria(filterBy)
+    logger.info(criteria)
     var stays = await collection.find(criteria).limit(30).toArray()
 
   }else{
@@ -63,21 +64,25 @@ async function addMsg(stayId, msg) {
 }
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0}) {
+  logger.info(filterBy)
   const criteria = {}
   if(filterBy.where || filterBy.label){
     const { where, label, adults,children } = filterBy
-    // var criteria = {
-    //   adress:{street:''},}
     criteria.capacity = { $gte: (+adults + +children) }
     if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
     if(label) criteria.label = { $regex: label, $options: 'i' }
-    // if (status) {
+
   }
-  //   var inStock = status === 'In stock' ? true : false
-  //   criteria.inStock = { $eq: inStock }
-  // }
-  // if (byLabel) criteria.capacity = { $lte: +adults + +children }
-  // return criteria
+
+  if(filterBy.minPrice){
+    let minPrice = (+filterBy.minPrice + 0)
+    let maxPrice = (+filterBy.maxPrice + 0)
+    criteria.price = {$gt:minPrice,$lt:maxPrice}
+
+    // criteria.roomType = { $regex: label, $options: 'i' }
+    // criteria.amenities = { $all: filterBy }
+  }
+  
   return criteria
 }
 
