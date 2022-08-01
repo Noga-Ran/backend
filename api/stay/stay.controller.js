@@ -1,6 +1,6 @@
 const stayService = require('./stay.service.js')
 const logger = require('../../services/logger.service')
-const { broadcast } = require('../../services/socket.service.js')
+// const { broadcast } = require('../../services/socket.service.js')
 
 async function getStays(req, res) {
   try {
