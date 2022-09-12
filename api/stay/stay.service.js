@@ -6,6 +6,7 @@ const logger = require('../../services/logger.service')
 
 async function query(filterBy={}) {
   const collection = await dbService.getCollection('stay')
+  
   if(filterBy) {
     const criteria = _buildCriteria(filterBy)
     logger.info(criteria)
@@ -65,7 +66,7 @@ async function addMsg(stayId, msg) {
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0,infants:0,pets:0}) {
   const criteria = {}
-  logger.info(filterBy)
+  // logger.info(filterBy)
   if(filterBy.where || filterBy.label){
     const { where, label, adults,children,infants,pets } = filterBy
     criteria.capacity = { $gte: (+adults + +children + +infants + +pets) }
