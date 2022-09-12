@@ -37,6 +37,7 @@ async function deleteUser(req, res) {
 
 async function updateUser(req, res) {
   try {
+    logger.debug('in update...')
     const user = req.body
     const savedUser = await userService.update(user)
     res.send(savedUser)
