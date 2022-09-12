@@ -65,8 +65,9 @@ async function addMsg(stayId, msg) {
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0,infants:0,pets:0}) {
   const criteria = {}
+  logger.info(filterBy)
   if(filterBy.where || filterBy.label){
-    const { where, label, adults,children } = filterBy
+    const { where, label, adults,children,infants,pets } = filterBy
     criteria.capacity = { $gte: (+adults + +children + +infants + +pets) }
     if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
     if(label) criteria.label = { $regex: label, $options: 'i' }
