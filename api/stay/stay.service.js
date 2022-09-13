@@ -66,7 +66,7 @@ async function addMsg(stayId, msg) {
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0,infants:0,pets:0}) {
   const criteria = {}
-  // logger.info(filterBy)
+  logger.info(filterBy)
   if(filterBy.where || filterBy.label){
     const { where, label, adults,children,infants,pets } = filterBy
     criteria.capacity = { $gte: (+adults + +children + +infants + +pets) }
@@ -81,6 +81,16 @@ function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0,infant
     criteria.price = {$gt:minPrice,$lt:maxPrice}
 
     if(filterBy.beds!=='any') criteria.beds = {$eq:+filterBy.beds}
+    if(filterBy.bedRooms!=='any') criteria.bedrooms = {$gte:+filterBy.bedRooms-1}
+    if(filterBy?.propertyType) criteria.propertyType = {$regex: filterBy.propertyType, $options: 'i'}
+    var amenities = ['wifi','airConditioning','kitchen','washer','freeParking']
+    var amenitiesToFilter = []
+    amenities.forEach(a => {
+      console.log(a)
+      if(filterBy?.a) amenitiesToFilter.push(a)
+    })
+    logger.info('filter',amenitiesToFilter)
+    // criteria.amenities = {$all: filterBy.propertyType, $options: 'i'}
     // criteria.amenities = { $all: filterBy }
   }
   
