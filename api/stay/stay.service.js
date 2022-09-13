@@ -81,17 +81,34 @@ function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0,infant
     criteria.price = {$gt:minPrice,$lt:maxPrice}
 
     if(filterBy.beds!=='any') criteria.beds = {$eq:+filterBy.beds}
+
     if(filterBy.bedRooms!=='any') criteria.bedrooms = {$gte:+filterBy.bedRooms-1}
+
     if(filterBy?.propertyType) criteria.propertyType = {$regex: filterBy.propertyType, $options: 'i'}
+
+    var roomsTypes = ['entirePlace','privateRoom','sharedRoom']
+    var roomsToFilter = []
+
+    roomsTypes.forEach(room => {
+      let roomType = ''
+      if(room==='entirePlace') roomType = 'Entire home/apt'
+      else if(room==='privateRoom') roomType = 'Private room'
+      else if(room==='sharedRoom') roomType = 'Room'
+      if(filterBy[room]==='true') roomsToFilter.push(roomType)
+    })
+    
+    if(roomsToFilter.length>0) criteria.roomType = { $in: roomsToFilter}
+
     var amenities = ['wifi','airConditioning','kitchen','washer','freeParking']
     var amenitiesToFilter = []
     amenities.forEach(a => {
-      console.log(a)
-      if(filterBy?.a) amenitiesToFilter.push(a)
+      let aminity = a.replace(/([A-Z]+)/g, " $1").toLowerCase()
+      aminity = aminity[0].toUpperCase() + aminity.substring(1);
+      if(filterBy[a]==='true') amenitiesToFilter.push(aminity)
     })
-    logger.info('filter',amenitiesToFilter)
-    // criteria.amenities = {$all: filterBy.propertyType, $options: 'i'}
-    // criteria.amenities = { $all: filterBy }
+    if(amenitiesToFilter.length>0) criteria.amenities = { $all: amenitiesToFilter }
+
+
   }
   
   return criteria
