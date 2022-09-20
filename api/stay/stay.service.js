@@ -9,7 +9,7 @@ async function query(filterBy={}) {
   
   if(filterBy) {
     const criteria = _buildCriteria(filterBy)
-    logger.info(criteria)
+    logger.info('criteria',criteria)
     var stays = await collection.find(criteria).limit(30).toArray()
 
   }else{
@@ -66,8 +66,8 @@ async function addMsg(stayId, msg) {
 
 function _buildCriteria(filterBy = {where:'',label:'',adults:0,children:0,infants:0,pets:0}) {
   const criteria = {}
-  logger.info(filterBy)
-  if(filterBy.where || filterBy.label){
+  if(filterBy.where || filterBy.label || filterBy.adults>0){
+    logger.info(filterBy)
     const { where, label, adults,children,infants,pets } = filterBy
     criteria.capacity = { $gte: (+adults + +children + +infants + +pets) }
     if (where) criteria["address.street"]  = { $regex: where, $options: 'i' }
