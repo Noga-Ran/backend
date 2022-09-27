@@ -25,8 +25,12 @@ async function signup(req, res) {
     req.session.user = user
     res.json(user)
   } catch (err) {
-    logger.error('Failed to signup ' + err)
-    res.status(500).send({ err: 'Failed to signup' })
+    if(err==='Username already exist'){
+      res.status(500).send({ err: 'username already exist' })
+    }
+    else{
+      res.status(500).send({ err: 'Failed to signup' })
+    }
   }
 }
 

@@ -23,6 +23,9 @@ async function signup({ username, password, fullname, isAdmin=false }) {
 
   logger.debug(`auth.service - signup with username: ${username}, fullname: ${fullname}`)
   if (!username || !password || !fullname) return Promise.reject('fullname, username and password are required!')
+  const user = await userService.getByUsername(username)
+  logger.info(user,'user name exit?')
+  if (user) return Promise.reject('Username already exist')
 
   const hash = await bcrypt.hash(password, saltRounds)
   return userService.add({ username, password: hash, fullname, isAdmin })
